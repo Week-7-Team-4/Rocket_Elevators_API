@@ -5,7 +5,7 @@ namespace :dbr do
   desc "Import data from Lead Table to Fact Contacts Table"
   desc "Import data from product"
   desc "Import data from customers"
-  
+
   # ======================================================================
   # need to add a daily update\
   # ======================================================================

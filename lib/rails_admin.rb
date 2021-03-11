@@ -19,37 +19,31 @@ module RailsAdmin
                     nil
                 end
 
-                register_instance_option :controller do
-                    proc do
-                    render action: @action.template_name
-                    end
-                end
         
-
-
                 register_instance_option :controller do
                     proc do
-                        authenticator = Authenticators::IamAuthenticator.new(
-                            api_key: ENV['IBM_apikey']
-                        )
+                        puts('test test!!!!!!!!!!!!!!!!')
+                        # authenticator = Authenticators::IamAuthenticator.new(
+                        #     api_key: ENV['IBM_apikey']
+                        # )
 
-                        text_to_speech = TextToSpeechV1.new(
-                            authenticator: authenticator
-                        )
+                        # text_to_speech = TextToSpeechV1.new(
+                        #     authenticator: authenticator
+                        # )
 
-                        text_to_speech.service_url = "https://api.us-east.text-to-speech.watson.cloud.ibm.com/instances/a9e170cf-7c55-4a4a-a204-b84b2d29a2fe"
-                        employee = Employee.find_by(user_id: current_user.id)
-                        File.open("app/assets/audios/watson.mp3", "wb") do |audio_file|
-                            response = text_to_speech.synthesize(
-                                text: "test test",
-                                accept: "audio/mp3",
-                                voice: "en-GB_JamesV3Voice"
-                            ).result
+                        # text_to_speech.service_url = "https://api.us-east.text-to-speech.watson.cloud.ibm.com/instances/a9e170cf-7c55-4a4a-a204-b84b2d29a2fe"
+                        # employee = Employee.find_by(user_id: current_user.id)
+                        # File.open("public/watson.wav", "wb") do |audio_file|
+                        #     response = text_to_speech.synthesize(
+                        #         text: "test test",
+                        #         accept: "audio/mp3",
+                        #         voice: "en-GB_JamesV3Voice"
+                        #     ).result
 
-                        audio_file.write(response)
-                        puts("audio made")
-                        end
-                        render @action.template_name, status: 200 
+                        # audio_file.write(response)
+                        # puts("audio made")
+                        # end
+                        # render @action.template_name, status: 200 
                     end     
                 
                 end

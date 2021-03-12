@@ -45,7 +45,7 @@ development:
   cap production deploy
 
 
-  
+  sddss
 default: &default
   adapter: mysql2
   encoding: utf8
@@ -102,4 +102,45 @@ push on dev
 fix readme add users login add forgot password\
 add gemas
 4 ligne de code pr vsc
+<<<<<<< HEAD
 push
+=======
+
+
+ 
+    # Logic to connect to the dropbox account, create a diretory for the client, export the binary files to dropbox client's directory, delete the binary file from MySQL database 
+    def dropbox
+      puts "========================dropbox========================="
+      puts @lead.id
+      puts @lead.email
+      puts @lead.file_attachment
+      puts "========================dropbox========================="
+      puts "========================dropbox========================="
+
+     client = DropboxApi::Client.new(ENV["DROPBOX_API_TOKEN"])
+
+   
+       # for each lead that has this email  
+      Lead.where(email: @lead.email).each do |lead|  
+        
+         # check if the attached_file is NOT null
+        unless lead.file_attachment.nil? 
+          dir_path = "/" + @lead.company_name   
+          begin           
+            # create a folder named (use the company_name) if there is no folder for this customer yet
+            client.create_folder dir_path  
+          rescue DropboxApi::Errors::FolderConflictError => err
+            puts "Folder already exists in path, ignoring folder creation. Continue to upload files."
+          end  
+          begin
+            client.upload(dir_path + "/" + lead.filename, lead.file_attachment)     # send file to user's folder at dropbox
+          rescue DropboxApi::Errors::FileConflictError => err
+            puts "File already exists in folder, ignoring file upload. Continue to delete file from database."
+           end  
+
+          @lead.file_attachment = nil;
+          @lead.save!
+        end
+      end
+    end 
+>>>>>>> main

@@ -1,15 +1,28 @@
-
-
 <a id= "watson" class= "btn btn-danger btn-md"> start watson <i class= "fa fa-angle-right"></i></a>
-<audio id= 'audio'>
-    <source src= "<%= audio_path 'watson.mp3' %>" type= "audio/mpeg">
+
+<audio id= "watsonAudio">
+    <source src="<%= audio_path 'watson.mp3' %>" type='audio/mp3'>
 </audio>
 
 <script>
-    $('#watson').on("click", ()=> {
-        $.ajax("/speak")
-        var audio = $('#audio').get(0);
-        audio.paused? audio.play():audio.pause()
-        audio.paused? $('#watson').text("play"):$('#watson').text('pause')
-    })
+  
+
+    $(document).ready(function() {
+        var playing = false;
+        $.ajax("/speak");
+        
+        $('#watson').click(function() {
+            if (playing == false) {
+                document.getElementById('watsonAudio').play();
+                playing = true;
+                $('#watson').text("stop sound");
+
+            } else {
+                document.getElementById('watsonAudio').pause();
+                playing = false;
+                $('#watson').text("restart sound");
+            }
+        });
+    });
+      
 </script>

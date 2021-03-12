@@ -14,5 +14,6 @@ class AddAllReference < ActiveRecord::Migration[5.2]
     add_reference :building_details, :building, foreign_key: true
     add_reference :addresses,   :building, foreign_key: true
     add_reference :addresses,   :customer, foreign_key: true
+    add_reference :customers,   :lead, foreign_key: true
   end
 end

@@ -3,9 +3,9 @@ class Quote < ApplicationRecord
 
     def new_zendesk_ticket_quote
         client = ZendeskAPI::Client.new do |config|
-            config.url = ENV['ZENDESK_URL']
-            config.username = ENV['ZENDESK_EMAIL']
-            config.token = ENV['ZENDESK_TOKEN']
+            config.url = "https://rocketelevators7842.zendesk.com/api/v2"
+            config.username = ENV["ZENDESK_EMAIL"]
+            config.token = ENV["ZENDESK_TOKEN"]
         end
         ZendeskAPI::Ticket.create!(client,
         :subject => "#{self.quotes_name} from #{self.quotes_company_name}",

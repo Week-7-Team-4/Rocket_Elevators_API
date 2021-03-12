@@ -1,18 +1,12 @@
 <div id="mapDiv" style='width: 900px; height: 800px; margin:0 auto;'></div>
-
 <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-
 <script src="//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"></script>
 <script src='//underscorejs.org/underscore-min.js' ></script>
-
 <script> 
-
     window.addEventListener('load', function () {
         initBuildingMap();
     });
-
    function initBuildingMap(){
-
         handler = Gmaps.build('Google');
         handler.buildMap({
             provider: {
@@ -23,7 +17,6 @@
                 id: 'mapDiv'
             },
             gestureHandling: 'cooperative'
-
         },
         function(){
             markers = handler.addMarkers([
@@ -56,21 +49,15 @@
                         },
                         fullscreenControl: true
                 }
-            
-            
             handler.fitMapToBounds();
             handler.getMap().setCenter(centermap);
             handler.getMap().setZoom(4);
             handler.getMap().setOptions(options)
             markers = handler.addMarkers(<%=raw @hash.to_json%>);
             handler.bounds.extendWith(markers);
-
-
             //var infowindow = new google.maps.InfoWindow({content:contentString});
         }
-    );
-
-        
+    );    
 
     }
 

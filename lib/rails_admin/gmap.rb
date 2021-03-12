@@ -17,11 +17,7 @@ module RailsAdmin
           
           register_instance_option :auditing_versions_limit do
             100
-          end
-  
-          # register_instance_option :route_fragment do
-          #   '/gmap/index'
-          # end
+          end         
 
           register_instance_option :visible? do
            bindings[:controller].main_app
@@ -44,19 +40,7 @@ module RailsAdmin
   
           register_instance_option :controller do
             proc do 
-              # @data = {}
-              # Building.all.each do |building|
-              #   data = {}
-              #   address = [building.address,address, building.address.city, building.address.postal_code, building.address.country].compact.join(',')
-              #   data[:lat] = get_coordinates.first.coordinates[0]
-
-              #   data[:lng] = get_coordinates.first.coordinates[1]
-              # end
-              # $amount_columns = 0
-              # $amount_elevators = 0
-              # options = { units: "metric", APPID: ENV["WEATHER_API_KEY"] }
-              # weather = OpenWeather::Current.geocode(data[:lat], data[:lng], options)
-              # temp = weather.dig("main", "feels_like")
+             
               
               p "Load maps......"
               request = "select cus.cpy_contact_full_name as nameadmin, 

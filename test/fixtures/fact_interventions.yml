@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  employeeID: 1
+  buildingID: 1
+  batteryID: 1
+  columnID: 1
+  elevatorID: 1
+  start_interv: 2021-03-15 22:21:47
+  stop_interv: 2021-03-15 22:21:47
+  result: MyString
+  reports: MyString
+  status: MyString
+
+two:
+  employeeID: 1
+  buildingID: 1
+  batteryID: 1
+  columnID: 1
+  elevatorID: 1
+  start_interv: 2021-03-15 22:21:47
+  stop_interv: 2021-03-15 22:21:47
+  result: MyString
+  reports: MyString
+  status: MyString

@@ -3,7 +3,7 @@ class Customer < ApplicationRecord
     has_many :buildings
     has_one :address
 
-    # # has_one :lead
+    has_one :lead
 
     #  after_create :dropbox
     #  after_update :dropbox

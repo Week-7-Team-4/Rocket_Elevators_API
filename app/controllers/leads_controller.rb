@@ -33,27 +33,27 @@ class LeadsController < ApplicationController
         else    
             redirect_to "/leads", notice: "Invalid fields!"
         end
-        client = ZendeskAPI::Client.new do |config|
-            config.url = ENV["ZENDESK_URL"]
-            config.username = ENV["ZENDESK_EMAIL"]
-            config.token = ENV["ZENDESK_TOKEN"]
-        end
+        # client = ZendeskAPI::Client.new do |config|
+        #     config.url = ENV["ZENDESK_URL"]
+        #     config.username = ENV["ZENDESK_EMAIL"]
+        #     config.token = ENV["ZENDESK_TOKEN"]
+        # end
 
-        ZendeskAPI::Ticket.create!(client,
-        :subject => "#{@lead.full_name} from #{@lead.company_name}",
-        :comment => {
-            :value => "The contact #{@lead.full_name} from #{@lead.company_name} can be reach at email #{@lead.email} and at phone number #{@lead.phone}.
-            #{@lead.department} has a project named #{@lead.project_name} which would require contribution from Rocket Elevators.
+        # ZendeskAPI::Ticket.create!(client,
+        # :subject => "#{@lead.full_name} from #{@lead.company_name}",
+        # :comment => {
+        #     :value => "The contact #{@lead.full_name} from #{@lead.company_name} can be reach at email #{@lead.email} and at phone number #{@lead.phone}.
+        #     #{@lead.department} has a project named #{@lead.project_name} which would require contribution from Rocket Elevators.
 
-            #{@lead.project_description}
+        #     #{@lead.project_description}
 
-            Attached Message: #{@lead.message}
+        #     Attached Message: #{@lead.message}
 
-            The Contact uploaded an attachment"
-        },
-        :priority => "normal",
-        :type => "question"
-        )
+        #     The Contact uploaded an attachment"
+        # },
+        # :priority => "normal",
+        # :type => "question"
+        # )
     end
 
     def sendMail

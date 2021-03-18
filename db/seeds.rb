@@ -1,5 +1,4 @@
 require 'faker'
-
 # "first_name","last_name","company_name","address","city","county","state","zip","phone1","phone2","email","web"
 # , :encoding => 'ISO-8859-1'
 require 'csv'
@@ -7,12 +6,10 @@ require 'csv'
 # to check status of address
 # status = ["Online", "Offline", "Online", "Online"]
 # id,address_type,status,entity,adress,appartment,city,postal_code,country,notes,created_at,updated_at
-
-
+#Initialization
 def init() 
-
+  puts "init 2"
   address_create()
-
   employee_create("Nicolas", "Genest", "CEO", 'roc-kets', "nicolas.genest@codeboxx.biz")
   employee_create("Nadya", "Fortier", "Director", "roc-kets", "nadya.fortier@codeboxx.biz")
   employee_create("Martin", "chantal", "Director Assistant", "roc-kets", "martin.chantal@codeboxx.biz")
@@ -22,9 +19,7 @@ def init()
   employee_create("Thomas", "Carrier", "Engineer", "roc-kets", "thomas.carriert@codeboxx.biz")
   employee_create("Admin1", "Admin1", "Admin1", "roc-kets", "admin1@admin1.com")
   employee_create("Admin", "Admin", "Admin", "roc-kets", "admin@admin.com")
-
-
-  5.times do 
+  25.times do 
     customer_create(
       Faker::Company.name,
       Faker::Name.name,
@@ -36,9 +31,21 @@ def init()
       Faker::Internet.email
     )  
   end
-
-
-    5.times do
+  40.times do
+    intervention_create(
+      Faker::Number.between(from: 1, to: 200),
+      Faker::Number.between(from: 1, to: 200),
+      Faker::Number.between(from: 1, to: 200),
+      Faker::Number.between(from: 1, to: 200),
+      Faker::Number.between(from: 1, to: 200),
+      Faker::Date.between(from: '2019-02-23', to: '2020-2-25'),
+      Faker::Date.between(from: '2020-02-25', to: '2021-3-15'),
+      ['Success', 'Failure', 'Incomplete'].sample,
+      "Nothing to report",
+      ['Pending', 'InProgress', 'Interrupted' , 'Resumed', 'Complete'].sample
+    )
+  end
+    50.times do
       pl = ["Standard", "Premium", "Excelium"]
       bt = ["Residential", "Commercial", "Corporate", "Hybrid"]
   Quote.create(
@@ -66,8 +73,22 @@ def init()
       )
   end
 end
-
-
+# Definitions
+def intervention_create(employee_id, building_id, battery_id, column_id, elevator_id, start_interv, stop_interv, result, reports, status)
+  @intervention = Intervention.new({
+    employee_id: employee_id,
+    building_id: building_id,
+    battery_id: battery_id,
+    column_id: column_id,
+    elevator_id: elevator_id,
+    start_interv: start_interv,
+    stop_interv: stop_interv,
+    result: result,
+    reports: reports,
+    status: status
+  })
+  @intervention.save!
+end
 def user_create(email, password, password_confirmation, admin)
   @user = User.new({
     email: email, 
@@ -77,8 +98,6 @@ def user_create(email, password, password_confirmation, admin)
   @user.save!
   return @user
 end
-
-
 def employee_create(first_name, last_name, function, phone, email)
   @user = user_create(email, 123456, 123456, true)
   @employee = Employee.create({
@@ -90,8 +109,6 @@ def employee_create(first_name, last_name, function, phone, email)
     user: @user})
   @employee.save!
 end
-
-
 def customer_create(company_name, cpy_contact_full_name, cpy_contact_phone, cpy_contact_email, cpy_description, tech_authority_service_full_name,
   tech_authority_service_phone, tech_manager_service_email)
   @address = find_random_address('Customer')
@@ -106,10 +123,11 @@ def customer_create(company_name, cpy_contact_full_name, cpy_contact_phone, cpy_
     tech_authority_service_full_name: tech_authority_service_full_name, 
     tech_authority_service_phone: tech_authority_service_phone, 
     tech_manager_service_email: tech_manager_service_email, 
-    address: @address,
-    user: @user})
+    user_id: @user.id,
+    address_id: @address.id,
+    user: @user,
+    address: @address})
   @customer.save!
-
   rand(1..3).times do 
     building_create(
       cpy_contact_full_name,
@@ -121,8 +139,6 @@ def customer_create(company_name, cpy_contact_full_name, cpy_contact_phone, cpy_
       @customer)
   end
 end 
-
-
 def building_create(adm_contact_full_name, adm_contact_email, adm_contact_phone, tech_contact_full_name, tech_contact_email, tech_contact_phone, customer)
   @address = find_random_address('Building')
   @building = Building.new({
@@ -132,7 +148,8 @@ def building_create(adm_contact_full_name, adm_contact_email, adm_contact_phone,
     tech_contact_full_name: tech_contact_full_name, 
     tech_contact_email: tech_contact_email, 
     tech_contact_phone: tech_contact_phone, 
-    employee: employee,
+    customer_id: customer.id,
+    address_id: @address.id,
     customer: customer,
     address: @address})
   @building.save!
@@ -150,8 +167,6 @@ def building_create(adm_contact_full_name, adm_contact_email, adm_contact_phone,
     "value example",
     @building)
 end
-
-
 def address_create()
   require 'csv'
   ta = ["Billing", "Shipping", "Home", "Business"]
@@ -172,14 +187,12 @@ def address_create()
       t.country = row['country']
       t.longitude = row['longitude']
       t.latitude = row['latitude']
-      t.notes = row['notes']
+      t.notes = "1"
       t.created_at = Faker::Date.between(from: '2018-09-23', to: '2021-09-20')
       t.updated_at = Faker::Date.between(from: '2018-09-23', to: '2021-09-25')
       t.save!
     end
 end
-
-
 def find_random_address(entity)
   Address.all.each do 
     @address = Address.order("RAND()").first
@@ -189,8 +202,6 @@ def find_random_address(entity)
     end
   end
 end
-
-
 def building_detail_create(info_key, value, building)
   @building_detail = BuildingDetail.new({
     info_key: info_key,
@@ -198,8 +209,6 @@ def building_detail_create(info_key, value, building)
     building: building})
   @building_detail.save!
 end
-
-
 def battery_create(type_building, status, date_commissioning, date_last_inspection, certificate_operations, information, notes, entity)
   @battery = Battery.new({
     type_building: type_building,
@@ -209,9 +218,9 @@ def battery_create(type_building, status, date_commissioning, date_last_inspecti
     certificate_operations: certificate_operations,
     information: information,
     notes: notes,
+    building_id: entity.id,
     building: entity})
   @battery.save!
-
   rand(1..6).times do
     column_create(
       type_building,
@@ -222,8 +231,6 @@ def battery_create(type_building, status, date_commissioning, date_last_inspecti
       @battery)
   end
 end
-
-
 def column_create(type_building, number_floors_served, status, information, notes, battery)
   @column = Column.new({
     type_building: type_building,
@@ -231,9 +238,9 @@ def column_create(type_building, number_floors_served, status, information, note
     status: status,
     information: information,
     notes: notes,
+    battery_id: battery.id,
     battery: battery})
   @column.save!
-
   rand(2..4).times do
     elevator_create(
       Faker::Number.number(digits: 10),
@@ -248,8 +255,6 @@ def column_create(type_building, number_floors_served, status, information, note
       @column)
   end
 end
-
-
 def elevator_create(serial_number, model, type_building, status, date_commissioning, date_last_inspection, certificate_inspection, information, notes, column)
   @elevator = Elevator.new({
     serial_number: serial_number,
@@ -261,8 +266,35 @@ def elevator_create(serial_number, model, type_building, status, date_commission
     certificate_inspection: certificate_inspection,
     information: information,
     notes: notes,
+    column_id: column.id,
     column: column})
   @elevator.save!
 end
+50.times do
+#   randomizeCustomer = rand(0..9)
+#   isCustomer = false
 
+#   if randomizeCustomer <= 2
+#     isCustomer = false
+#   else
+#     isCustomer = true
+#   end
+#   customers_id = nil
+#   if isCustomer
+#     customers_id = rand(1..50)
+#   end
+  
+  lead = Lead.create(
+      full_name: Faker::Name.name,
+      email: Faker::Internet.email,
+      phone: Faker::PhoneNumber.phone_number,
+      company_name: Faker::Company.unique.name,
+      project_name: Faker::Appliance.brand,
+      department: Faker::Company.industry,
+      project_description: Faker::Lorem.sentences(number: 1, supplemental: true),
+      message: Faker::Lorem.paragraphs(number: 1), 
+      created_at: Faker::Time.between_dates(from: Date.today - 1, to: Date.today - 1000, period: :all),
+      # customer_id: customers_id
+  )
+end
 init()

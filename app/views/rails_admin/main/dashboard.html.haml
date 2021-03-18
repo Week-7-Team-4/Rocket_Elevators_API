@@ -1,0 +1,26 @@
+%div
+
+
+    %audio#watsonAudio.audios{controls: "", preload: "none"}
+        %source{src:"/assets/watson.mp3", type: "audio/mp3"}
+
+
+:javascript    
+    $(document).ready(function(){
+            let xmlHttpRequest = new XMLHttpRequest(); 
+            xmlHttpRequest.open("GET", "/speak"+ "?cb=" + new Date().getTime(), true);
+            xmlHttpRequest.responseType = "blob"; 
+            xmlHttpRequest.setRequestHeader("Accept", "application/json");
+            xmlHttpRequest.setRequestHeader("Content-Type", "application/json"); 
+            xmlHttpRequest.setRequestHeader("Cache-Control", "no-cache");
+            xmlHttpRequest.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var url = window.URL.createObjectURL(this.response);
+                    var audio = $('#watsonAudio') || new Audio();
+                    audio.src = url;
+                    
+                }
+             };
+
+              xmlHttpRequest.send();
+    });

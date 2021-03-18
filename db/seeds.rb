@@ -24,7 +24,7 @@ def init()
   employee_create("Admin", "Admin", "Admin", "roc-kets", "admin@admin.com")
 
 
-  50.times do 
+  5.times do 
     customer_create(
       Faker::Company.name,
       Faker::Name.name,
@@ -38,7 +38,7 @@ def init()
   end
 
 
-    50.times do
+    5.times do
       pl = ["Standard", "Premium", "Excelium"]
       bt = ["Residential", "Commercial", "Corporate", "Hybrid"]
   Quote.create(
@@ -132,6 +132,7 @@ def building_create(adm_contact_full_name, adm_contact_email, adm_contact_phone,
     tech_contact_full_name: tech_contact_full_name, 
     tech_contact_email: tech_contact_email, 
     tech_contact_phone: tech_contact_phone, 
+    employee: employee,
     customer: customer,
     address: @address})
   @building.save!
@@ -171,7 +172,7 @@ def address_create()
       t.country = row['country']
       t.longitude = row['longitude']
       t.latitude = row['latitude']
-      t.notes = "1"
+      t.notes = row['notes']
       t.created_at = Faker::Date.between(from: '2018-09-23', to: '2021-09-20')
       t.updated_at = Faker::Date.between(from: '2018-09-23', to: '2021-09-25')
       t.save!

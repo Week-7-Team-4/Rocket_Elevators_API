@@ -63,7 +63,7 @@ class LeadsController < ApplicationController
         project_name = @lead.project_name
         phone = @lead.phone
         mail = SendGrid::Mail.new    
-        mail.from = SendGrid::Email.new(email: "rocketelevatorswk7@gmail.com")
+        mail.from = SendGrid::Email.new(email: "tshibangubiayi@gmail.com")
         personalization = SendGrid::Personalization.new
         personalization.add_to(SendGrid::Email.new(email: email))
         personalization.add_dynamic_template_data({

@@ -9,11 +9,8 @@
 //
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
-//
-<<<<<<< HEAD
 
-=======
->>>>>>> main
+
 //= require activestorage
 //= require Chart.bundle
 //= require chartkick

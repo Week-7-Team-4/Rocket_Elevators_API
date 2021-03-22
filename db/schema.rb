@@ -98,7 +98,9 @@ ActiveRecord::Schema.define(version: 2021_03_11_193017) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.bigint "address_id"
+    t.bigint "lead_id"
     t.index ["address_id"], name: "index_customers_on_address_id"
+    t.index ["lead_id"], name: "index_customers_on_lead_id"
     t.index ["user_id"], name: "index_customers_on_user_id"
   end
 
@@ -194,6 +196,7 @@ ActiveRecord::Schema.define(version: 2021_03_11_193017) do
   add_foreign_key "buildings", "customers"
   add_foreign_key "columns", "batteries"
   add_foreign_key "customers", "addresses"
+  add_foreign_key "customers", "leads"
   add_foreign_key "customers", "users"
   add_foreign_key "elevators", "columns"
   add_foreign_key "employees", "users"
